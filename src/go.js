@@ -9,11 +9,10 @@ const createBoard = function(size) {
   return m;
 };
 
-const currentColor = function(moves) {
+const _currentColor = function(moves) {
   if (moves.length > 0 && moves[moves.length - 1].type === 'resign') {
     return Go.COLOR.EMPTY;
-  } else if (
-    moves.length > 1 &&
+  } else if (moves.length > 1 &&
     moves[moves.length - 1].type === 'pass' &&
     moves[moves.length - 2].type === 'pass'
   ) {
@@ -71,6 +70,10 @@ const Go = function(info, moves) {
   this.info = info;
   this.moves = [];
   this.board = createBoard(info.boardsize);
+  this.captured = {
+    0b01: 0, // color
+    0b10: 0
+  };
   const self = this;
   moves.forEach(move => {
     switch (move.type) {
@@ -103,9 +106,12 @@ Go.STATE = {
 };
 
 // public methods
+Go.prototype.currentColor = function() {
+  return _currentColor(this.moves);
+}
 
 Go.prototype.pass = function(color) {
-  if (currentColor(this.moves) === color) {
+  if (_currentColor(this.moves) === color) {
     this.moves.push({
       color,
       type: 'pass',
@@ -116,19 +122,19 @@ Go.prototype.pass = function(color) {
 };
 
 Go.prototype.play = function(color, i, j) {
-  if (currentColor(this.moves) !== color) {
+  if (_currentColor(this.moves) !== color) {
     return false;
   }
   if (this.board[i][j] !== Go.COLOR.EMPTY) return false;
   this.saved_board = JSON.parse(JSON.stringify(this.board));
-  this.board[i][j] = currentColor(this.moves);
+  this.board[i][j] = _currentColor(this.moves);
   const captured = [];
   const neighbors = getAdjacentIntersections(this.info.boardsize, i, j);
 
   const self = this;
   neighbors.forEach(n => {
     const state = self.board[n[0]][n[1]];
-    if (state !== Go.COLOR.EMPTY && state !== currentColor(self.moves)) {
+    if (state !== Go.COLOR.EMPTY && state !== _currentColor(self.moves)) {
       const group = getGroup(self.board, n[0], n[1]);
       if (group.liberties === 0) captured.push(group);
     }
@@ -161,11 +167,14 @@ Go.prototype.play = function(color, i, j) {
     type: 'play',
     position: [i, j],
   });
+  captured.forEach(group => {
+    this.captured[color] += group.stones.length;
+  });
   return captured.length;
 };
 
 Go.prototype.resign = function(color) {
-  if (currentColor(this.moves) === color) {
+  if (_currentColor(this.moves) === color) {
     this.moves.push({
       color,
       type: 'resign',
