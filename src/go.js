@@ -191,6 +191,30 @@ Go.prototype.toJson = function() {
   };
 };
 
+Go.prototype.toSgf = function() {
+  let sgf = `(;FF[4]GM[1]SZ[${this.info.boardsize}]` +
+  `GN[Copyright ShouTan Go]` +
+  `HA[${this.info.handicap}]` +
+  `KM[${this.info.komi}]` +
+  `RU[${this.info.rule || 'Chinese'}]`
+  this.moves.forEach((move) => {
+    sgf += `;${move.color === Go.COLOR.BLACK ? 'B': 'W'}`
+    switch(move.type){
+      case 'play':
+        sgf += `[${String.fromCharCode(97 + move.position[0]) +
+        String.fromCharCode(97 + move.position[1])}]`
+        break;
+      case 'pass':
+        sgf += '[]'
+        break;
+      default:
+        break;
+    }
+  });
+  sgf += ')'
+  return sgf;
+};
+
 ((root, factory) => {
   // AMD. Register as an anonymous module.
   // eslint-disable-next-line no-undef
