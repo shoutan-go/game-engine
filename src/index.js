@@ -1,5 +1,5 @@
-import Go from './go';
+const Go  = require('./engines/go');
 
 export {
-  Go,
+  Go
 };

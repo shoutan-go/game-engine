@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        },
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": [],
+  "retainLines": true
+}
