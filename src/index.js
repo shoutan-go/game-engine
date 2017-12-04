@@ -1,5 +1,4 @@
-const Go  = require('./engines/go');
+import Go from './engines/go';
+import CaptureGo from './engines/capture-go';
 
-export {
-  Go
-};
+export default { Go, CaptureGo };
