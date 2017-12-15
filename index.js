@@ -65,16 +65,21 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(2);
 
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _utils = __webpack_require__(2);
 
 var Go = function Go(info, moves) {
   this.info = info;
   this.moves = [];
-  this.board = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* createBoard */])(info.boardsize);
+  this.board = (0, _utils.createBoard)(info.boardsize);
   this.captured = {
     1: 0,
     2: 0
@@ -111,11 +116,11 @@ Go.STATE = {
 };
 
 Go.prototype.currentColor = function () {
-  return Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(this.moves);
+  return (0, _utils.currentColor)(this.moves);
 };
 
 Go.prototype.pass = function (color) {
-  if (Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(this.moves) === color) {
+  if ((0, _utils.currentColor)(this.moves) === color) {
     this.moves.push({
       color: color,
       type: 'pass'
@@ -126,26 +131,26 @@ Go.prototype.pass = function (color) {
 };
 
 Go.prototype.rules = function (color, i, j) {
-  if (Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(this.moves) !== color) {
+  if ((0, _utils.currentColor)(this.moves) !== color) {
     return false;
   }
 
   if (this.board[i][j] !== Go.COLOR.EMPTY) return false;
 
   var simulate_board = JSON.parse(JSON.stringify(this.board));
-  simulate_board[i][j] = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(this.moves);
+  simulate_board[i][j] = (0, _utils.currentColor)(this.moves);
   var captured = [];
-  var neighbors = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* getAdjacentIntersections */])(this.info.boardsize, i, j);
+  var neighbors = (0, _utils.getAdjacentIntersections)(this.info.boardsize, i, j);
   var self = this;
   neighbors.forEach(function (n) {
     var state = simulate_board[n[0]][n[1]];
-    if (state !== Go.COLOR.EMPTY && state !== Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(self.moves)) {
-      var group = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["d" /* getGroup */])(simulate_board, n[0], n[1]);
+    if (state !== Go.COLOR.EMPTY && state !== (0, _utils.currentColor)(self.moves)) {
+      var group = (0, _utils.getGroup)(simulate_board, n[0], n[1]);
       if (group.liberties === 0) captured.push(group);
     }
   });
 
-  if (captured && captured.length === 0 && Object(__WEBPACK_IMPORTED_MODULE_0__utils__["d" /* getGroup */])(simulate_board, i, j).liberties === 0) {
+  if (captured && captured.length === 0 && (0, _utils.getGroup)(simulate_board, i, j).liberties === 0) {
     return false;
   }
 
@@ -160,14 +165,14 @@ Go.prototype.play = function (color, i, j) {
 
   if (this.rules(color, i, j)) {
     this.last_move_hash = this.board.toString();
-    this.board[i][j] = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(this.moves);
+    this.board[i][j] = (0, _utils.currentColor)(this.moves);
     var captured = [];
-    var neighbors = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* getAdjacentIntersections */])(this.info.boardsize, i, j);
+    var neighbors = (0, _utils.getAdjacentIntersections)(this.info.boardsize, i, j);
     var self = this;
     neighbors.forEach(function (n) {
       var state = self.board[n[0]][n[1]];
-      if (state !== Go.COLOR.EMPTY && state !== Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(self.moves)) {
-        var group = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["d" /* getGroup */])(self.board, n[0], n[1]);
+      if (state !== Go.COLOR.EMPTY && state !== (0, _utils.currentColor)(self.moves)) {
+        var group = (0, _utils.getGroup)(self.board, n[0], n[1]);
         if (group.liberties === 0) captured.push(group);
       }
     });
@@ -190,7 +195,7 @@ Go.prototype.play = function (color, i, j) {
 };
 
 Go.prototype.resign = function (color) {
-  if (Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* currentColor */])(this.moves) === color) {
+  if ((0, _utils.currentColor)(this.moves) === color) {
     this.moves.push({
       color: color,
       type: 'resign'
@@ -226,30 +231,41 @@ Go.prototype.toSgf = function () {
   return sgf;
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (Go);
+exports.default = Go;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__engines_go__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__engines_capture_go__ = __webpack_require__(3);
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-/* harmony default export */ __webpack_exports__["default"] = ({ Go: __WEBPACK_IMPORTED_MODULE_0__engines_go__["a" /* default */], CaptureGo: __WEBPACK_IMPORTED_MODULE_1__engines_capture_go__["a" /* default */] });
+var _go = __webpack_require__(0);
+
+var _go2 = _interopRequireDefault(_go);
+
+var _captureGo = __webpack_require__(3);
+
+var _captureGo2 = _interopRequireDefault(_captureGo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { Go: _go2.default, CaptureGo: _captureGo2.default };
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getGroup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAdjacentIntersections; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createBoard; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return currentColor; });
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var createBoard = function createBoard(size) {
   var m = [];
@@ -312,21 +328,33 @@ var getGroup = function getGroup(board, i, j) {
   };
 };
 
-
+exports.getGroup = getGroup;
+exports.getAdjacentIntersections = getAdjacentIntersections;
+exports.createBoard = createBoard;
+exports.currentColor = currentColor;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__go__ = __webpack_require__(0);
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _go = __webpack_require__(0);
+
+var _go2 = _interopRequireDefault(_go);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
 
 var CaptureGo = function (_Go) {
   _inherits(CaptureGo, _Go);
@@ -338,9 +366,9 @@ var CaptureGo = function (_Go) {
   }
 
   return CaptureGo;
-}(__WEBPACK_IMPORTED_MODULE_0__go__["a" /* default */]);
+}(_go2.default);
 
-/* harmony default export */ __webpack_exports__["a"] = (CaptureGo);
+exports.default = CaptureGo;
 
 /***/ })
 /******/ ]);
