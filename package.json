@@ -2,10 +2,10 @@
   "name": "game-engine",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "src/index.js",
+  "browser": "dist/index.js",
   "scripts": {
     "precommit": "lint-staged",
-    "install": "npm run build",
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
     "lint": "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" ."
   },
@@ -18,6 +18,8 @@
   "author": "Lookis",
   "license": "MIT",
   "dependencies": {
+  },
+  "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
