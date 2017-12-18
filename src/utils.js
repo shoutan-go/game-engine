@@ -1,4 +1,9 @@
 /* eslint-disable no-bitwise */
+
+import {
+  Go
+} from './constants';
+
 const createBoard = function(size) {
   const m = [];
   for (let i = 0; i < size; i += 1) {

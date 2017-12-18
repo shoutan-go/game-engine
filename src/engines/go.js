@@ -5,6 +5,10 @@ import {
   getGroup,
 } from '../utils';
 
+import {
+  Go as GoConstants
+} from '../constants';
+
 const Go = function(info, moves) {
   this.info = info;
   this.moves = [];
@@ -30,19 +34,9 @@ const Go = function(info, moves) {
   });
 };
 
-Go.COLOR = {
-  BLACK: 0b01,
-  WHITE: 0b10,
-  EMPTY: 0b00,
-};
+Go.COLOR = GoConstants.COLOR;
 
-Go.STATE = {
-  BLACK_READY: 0b10,
-  WHITE_READY: 0b01,
-  WAITING: 0b00,
-  PLAYING: 0b11,
-  FINISHED: 0b111,
-};
+Go.STATE = GoConstants.STATE;
 
 // public methods
 Go.prototype.currentColor = function() {
