@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,7 +74,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _utils = __webpack_require__(2);
+var _utils = __webpack_require__(3);
+
+var _constants = __webpack_require__(1);
 
 var Go = function Go(info, moves) {
   this.info = info;
@@ -101,19 +103,9 @@ var Go = function Go(info, moves) {
   });
 };
 
-Go.COLOR = {
-  BLACK: 1,
-  WHITE: 2,
-  EMPTY: 0
-};
+Go.COLOR = _constants.Go.COLOR;
 
-Go.STATE = {
-  BLACK_READY: 2,
-  WHITE_READY: 1,
-  WAITING: 0,
-  PLAYING: 3,
-  FINISHED: 7
-};
+Go.STATE = _constants.Go.STATE;
 
 Go.prototype.currentColor = function () {
   return (0, _utils.currentColor)(this.moves);
@@ -243,18 +235,22 @@ exports.default = Go;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _go = __webpack_require__(0);
-
-var _go2 = _interopRequireDefault(_go);
-
-var _captureGo = __webpack_require__(3);
-
-var _captureGo2 = _interopRequireDefault(_captureGo);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = { Go: _go2.default, CaptureGo: _captureGo2.default };
+exports.default = {
+  Go: {
+    COLOR: {
+      BLACK: 1,
+      WHITE: 2,
+      EMPTY: 0
+    },
+    STATE: {
+      BLACK_READY: 2,
+      WHITE_READY: 1,
+      WAITING: 0,
+      PLAYING: 3,
+      FINISHED: 7
+    }
+  }
+};
 
 /***/ }),
 /* 2 */
@@ -267,12 +263,38 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _go = __webpack_require__(0);
+
+var _go2 = _interopRequireDefault(_go);
+
+var _captureGo = __webpack_require__(4);
+
+var _captureGo2 = _interopRequireDefault(_captureGo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { Go: _go2.default, CaptureGo: _captureGo2.default };
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.currentColor = exports.createBoard = exports.getAdjacentIntersections = exports.getGroup = undefined;
+
+var _constants = __webpack_require__(1);
+
 var createBoard = function createBoard(size) {
   var m = [];
   for (var i = 0; i < size; i += 1) {
     m[i] = [];
     for (var j = 0; j < size; j += 1) {
-      m[i][j] = Go.COLOR.EMPTY;
+      m[i][j] = _constants.Go.COLOR.EMPTY;
     }
   }
   return m;
@@ -280,13 +302,13 @@ var createBoard = function createBoard(size) {
 
 var currentColor = function currentColor(moves) {
   if (moves.length > 0 && moves[moves.length - 1].type === 'resign') {
-    return Go.COLOR.EMPTY;
+    return _constants.Go.COLOR.EMPTY;
   } else if (moves.length > 1 && moves[moves.length - 1].type === 'pass' && moves[moves.length - 2].type === 'pass') {
-    return Go.COLOR.EMPTY;
+    return _constants.Go.COLOR.EMPTY;
   } else if (moves[moves.length - 1]) {
     return moves[moves.length - 1].color ^ 3;
   }
-  return Go.COLOR.BLACK;
+  return _constants.Go.COLOR.BLACK;
 };
 
 var getAdjacentIntersections = function getAdjacentIntersections(size, i, j) {
@@ -300,7 +322,7 @@ var getAdjacentIntersections = function getAdjacentIntersections(size, i, j) {
 
 var getGroup = function getGroup(board, i, j) {
   var color = board[i][j];
-  if (color === Go.COLOR.EMPTY) return null;
+  if (color === _constants.Go.COLOR.EMPTY) return null;
 
   var visited = {};
   var visitedList = [];
@@ -309,7 +331,7 @@ var getGroup = function getGroup(board, i, j) {
 
   var visiting = function visiting(n) {
     var state = board[n[0]][n[1]];
-    if (state === Go.COLOR.EMPTY) count += 1;
+    if (state === _constants.Go.COLOR.EMPTY) count += 1;
     if (state === color) queue.push([n[0], n[1]]);
   };
   while (queue.length > 0) {
@@ -334,7 +356,7 @@ exports.createBoard = createBoard;
 exports.currentColor = currentColor;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

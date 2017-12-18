@@ -3,13 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.currentColor = exports.createBoard = exports.getAdjacentIntersections = exports.getGroup = undefined;
+
+var _constants = require('./constants');
 
 var createBoard = function createBoard(size) {
   var m = [];
   for (var i = 0; i < size; i += 1) {
     m[i] = [];
     for (var j = 0; j < size; j += 1) {
-      m[i][j] = Go.COLOR.EMPTY;
+      m[i][j] = _constants.Go.COLOR.EMPTY;
     }
   }
   return m;
@@ -17,13 +20,13 @@ var createBoard = function createBoard(size) {
 
 var currentColor = function currentColor(moves) {
   if (moves.length > 0 && moves[moves.length - 1].type === 'resign') {
-    return Go.COLOR.EMPTY;
+    return _constants.Go.COLOR.EMPTY;
   } else if (moves.length > 1 && moves[moves.length - 1].type === 'pass' && moves[moves.length - 2].type === 'pass') {
-    return Go.COLOR.EMPTY;
+    return _constants.Go.COLOR.EMPTY;
   } else if (moves[moves.length - 1]) {
     return moves[moves.length - 1].color ^ 3;
   }
-  return Go.COLOR.BLACK;
+  return _constants.Go.COLOR.BLACK;
 };
 
 var getAdjacentIntersections = function getAdjacentIntersections(size, i, j) {
@@ -37,7 +40,7 @@ var getAdjacentIntersections = function getAdjacentIntersections(size, i, j) {
 
 var getGroup = function getGroup(board, i, j) {
   var color = board[i][j];
-  if (color === Go.COLOR.EMPTY) return null;
+  if (color === _constants.Go.COLOR.EMPTY) return null;
 
   var visited = {};
   var visitedList = [];
@@ -46,7 +49,7 @@ var getGroup = function getGroup(board, i, j) {
 
   var visiting = function visiting(n) {
     var state = board[n[0]][n[1]];
-    if (state === Go.COLOR.EMPTY) count += 1;
+    if (state === _constants.Go.COLOR.EMPTY) count += 1;
     if (state === color) queue.push([n[0], n[1]]);
   };
   while (queue.length > 0) {

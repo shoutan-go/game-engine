@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _utils = require('../utils');
 
+var _constants = require('../constants');
+
 var Go = function Go(info, moves) {
   this.info = info;
   this.moves = [];
@@ -31,19 +33,9 @@ var Go = function Go(info, moves) {
   });
 };
 
-Go.COLOR = {
-  BLACK: 1,
-  WHITE: 2,
-  EMPTY: 0
-};
+Go.COLOR = _constants.Go.COLOR;
 
-Go.STATE = {
-  BLACK_READY: 2,
-  WHITE_READY: 1,
-  WAITING: 0,
-  PLAYING: 3,
-  FINISHED: 7
-};
+Go.STATE = _constants.Go.STATE;
 
 Go.prototype.currentColor = function () {
   return (0, _utils.currentColor)(this.moves);
