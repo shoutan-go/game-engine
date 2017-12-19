@@ -1,8 +1,6 @@
 /* eslint-disable no-bitwise */
 
-import {
-  Go
-} from './constants';
+import { Go } from './constants';
 
 const createBoard = function(size) {
   const m = [];
