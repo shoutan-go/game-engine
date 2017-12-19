@@ -154,3 +154,4 @@ Go.prototype.toSgf = function () {
 };
 
 exports.default = Go;
+module.exports = exports['default'];
