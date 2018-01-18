@@ -8,10 +8,15 @@ var _utils = require('../utils');
 
 var _constants = require('../constants');
 
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var Go = function Go(info, moves) {
   this.info = info;
   this.moves = [];
   this.board = (0, _utils.createBoard)(info.boardsize);
+  this.boardMoves = (0, _utils.createBoard)(info.boardsize);
   this.captured = {
     1: 0,
     2: 0
@@ -33,9 +38,9 @@ var Go = function Go(info, moves) {
   });
 };
 
-Go.COLOR = _constants.Go.COLOR;
+Go.COLOR = _constants2.default.COLOR;
 
-Go.STATE = _constants.Go.STATE;
+Go.STATE = _constants2.default.STATE;
 
 Go.prototype.currentColor = function () {
   return (0, _utils.currentColor)(this.moves);
@@ -88,6 +93,12 @@ Go.prototype.play = function (color, i, j) {
   if (this.rules(color, i, j)) {
     this.last_move_hash = this.board.toString();
     this.board[i][j] = (0, _utils.currentColor)(this.moves);
+    this.moves.push({
+      color: color,
+      type: 'play',
+      position: [i, j]
+    });
+    this.boardMoves[i][j] = this.moves.length;
     var captured = [];
     var neighbors = (0, _utils.getAdjacentIntersections)(this.info.boardsize, i, j);
     var self = this;
@@ -101,12 +112,8 @@ Go.prototype.play = function (color, i, j) {
     captured.forEach(function (group) {
       group.stones.forEach(function (stone) {
         self.board[stone[0]][stone[1]] = Go.COLOR.EMPTY;
+        self.boardMoves[stone[0]][stone[1]] = Go.COLOR.EMPTY;
       });
-    });
-    this.moves.push({
-      color: color,
-      type: 'play',
-      position: [i, j]
     });
     captured.forEach(function (group) {
       _this.captured[color] += group.stones.length;
