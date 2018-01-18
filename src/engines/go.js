@@ -5,12 +5,13 @@ import {
   getGroup,
 } from '../utils';
 
-import { Go as GoConstants } from '../constants';
+import GoConstants from '../constants';
 
 const Go = function(info, moves) {
   this.info = info;
   this.moves = [];
   this.board = createBoard(info.boardsize);
+  this.boardMoves = createBoard(info.boardsize);
   this.captured = {
     0b01: 0, // color
     0b10: 0,
@@ -95,6 +96,12 @@ Go.prototype.play = function(color, i, j) {
   if (this.rules(color, i, j)) {
     this.last_move_hash = this.board.toString();
     this.board[i][j] = currentColor(this.moves);
+    this.moves.push({
+      color,
+      type: 'play',
+      position: [i, j],
+    });
+    this.boardMoves[i][j] = this.moves.length;
     const captured = [];
     const neighbors = getAdjacentIntersections(this.info.boardsize, i, j);
     const self = this;
@@ -108,12 +115,8 @@ Go.prototype.play = function(color, i, j) {
     captured.forEach(group => {
       group.stones.forEach(stone => {
         self.board[stone[0]][stone[1]] = Go.COLOR.EMPTY;
+        self.boardMoves[stone[0]][stone[1]] = Go.COLOR.EMPTY;
       });
-    });
-    this.moves.push({
-      color,
-      type: 'play',
-      position: [i, j],
     });
     captured.forEach(group => {
       this.captured[color] += group.stones.length;
