@@ -8,10 +8,6 @@ var _utils = require('../utils');
 
 var _constants = require('../constants');
 
-var _constants2 = _interopRequireDefault(_constants);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var Go = function Go(info, moves) {
   this.info = info;
   this.moves = [];
@@ -38,9 +34,9 @@ var Go = function Go(info, moves) {
   });
 };
 
-Go.COLOR = _constants2.default.COLOR;
+Go.COLOR = _constants.Go.COLOR;
 
-Go.STATE = _constants2.default.STATE;
+Go.STATE = _constants.Go.STATE;
 
 Go.prototype.currentColor = function () {
   return (0, _utils.currentColor)(this.moves);

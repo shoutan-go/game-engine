@@ -5,7 +5,7 @@ import {
   getGroup,
 } from '../utils';
 
-import GoConstants from '../constants';
+import { Go as GoConstants } from '../constants';
 
 const Go = function(info, moves) {
   this.info = info;
