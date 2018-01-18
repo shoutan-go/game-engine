@@ -19,3 +19,4 @@ var Go = {
 };
 
 exports.default = { Go: Go };
+module.exports = exports["default"];

@@ -15,3 +15,4 @@ var _captureGo2 = _interopRequireDefault(_captureGo);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = { Go: _go2.default, CaptureGo: _captureGo2.default };
+module.exports = exports['default'];

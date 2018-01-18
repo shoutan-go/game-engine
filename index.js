@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["GameEngine"] = factory();
+	else
+		root["GameEngine"] = factory();
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -224,6 +234,7 @@ Go.prototype.toSgf = function () {
 };
 
 exports.default = Go;
+module.exports = exports['default'];
 
 /***/ }),
 /* 1 */
@@ -251,6 +262,7 @@ var Go = {
 };
 
 exports.default = { Go: Go };
+module.exports = exports["default"];
 
 /***/ }),
 /* 2 */
@@ -274,6 +286,7 @@ var _captureGo2 = _interopRequireDefault(_captureGo);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = { Go: _go2.default, CaptureGo: _captureGo2.default };
+module.exports = exports['default'];
 
 /***/ }),
 /* 3 */
@@ -391,6 +404,8 @@ var CaptureGo = function (_Go) {
 }(_go2.default);
 
 exports.default = CaptureGo;
+module.exports = exports['default'];
 
 /***/ })
 /******/ ]);
+});

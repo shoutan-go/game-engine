@@ -29,3 +29,4 @@ var CaptureGo = function (_Go) {
 }(_go2.default);
 
 exports.default = CaptureGo;
+module.exports = exports['default'];
