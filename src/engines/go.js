@@ -96,12 +96,6 @@ Go.prototype.play = function(color, i, j) {
   if (this.rules(color, i, j)) {
     this.last_move_hash = this.board.toString();
     this.board[i][j] = currentColor(this.moves);
-    this.moves.push({
-      color,
-      type: 'play',
-      position: [i, j],
-    });
-    this.boardMoves[i][j] = this.moves.length;
     const captured = [];
     const neighbors = getAdjacentIntersections(this.info.boardsize, i, j);
     const self = this;
@@ -118,6 +112,12 @@ Go.prototype.play = function(color, i, j) {
         self.boardMoves[stone[0]][stone[1]] = Go.COLOR.EMPTY;
       });
     });
+    this.moves.push({
+      color,
+      type: 'play',
+      position: [i, j],
+    });
+    this.boardMoves[i][j] = this.moves.length;
     captured.forEach(group => {
       this.captured[color] += group.stones.length;
     });
