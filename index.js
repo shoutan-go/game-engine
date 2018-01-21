@@ -157,6 +157,12 @@ Go.prototype.rules = function (color, i, j) {
     return false;
   }
 
+  captured.forEach(function (group) {
+    group.stones.forEach(function (stone) {
+      simulate_board[stone[0]][stone[1]] = Go.COLOR.EMPTY;
+    });
+  });
+
   if (this.last_move_hash && this.last_move_hash === simulate_board.toString()) {
     return false;
   }

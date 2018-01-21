@@ -82,6 +82,12 @@ Go.prototype.rules = function(color, i, j) {
   ) {
     return false;
   }
+  // remove captured stone on simulate board
+  captured.forEach(group => {
+    group.stones.forEach(stone => {
+      simulate_board[stone[0]][stone[1]] = Go.COLOR.EMPTY;
+    });
+  });
   // ko fight on simulate board
   if (
     this.last_move_hash &&
