@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -83,10 +83,38 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var Go = {
+  COLOR: {
+    BLACK: 1,
+    WHITE: 2,
+    EMPTY: 0
+  },
+  STATE: {
+    BLACK_READY: 2,
+    WHITE_READY: 1,
+    WAITING: 0,
+    PLAYING: 3,
+    FINISHED: 7
+  }
+};
 
-var _utils = __webpack_require__(3);
+exports.default = { Go: Go };
+module.exports = exports["default"];
 
-var _constants = __webpack_require__(1);
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _utils = __webpack_require__(2);
+
+var _constants = __webpack_require__(0);
 
 var Go = function Go(info, moves) {
   this.info = info;
@@ -216,6 +244,17 @@ Go.prototype.resign = function (color) {
   return false;
 };
 
+Go.prototype.winner = function () {
+  if ((0, _utils.currentColor)(this.moves) === _constants.Go.COLOR.EMPTY) {
+    return 'estimate';
+  }
+  var lastMove = this.moves[this.moves.length - 1];
+  if (lastMove && lastMove.type === 'resign') {
+    return 3 ^ (0, _utils.currentColor)(lastMove.color);
+  }
+  return false;
+};
+
 Go.prototype.toJson = function () {
   return {
     info: this.info,
@@ -246,59 +285,7 @@ exports.default = Go;
 module.exports = exports['default'];
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var Go = {
-  COLOR: {
-    BLACK: 1,
-    WHITE: 2,
-    EMPTY: 0
-  },
-  STATE: {
-    BLACK_READY: 2,
-    WHITE_READY: 1,
-    WAITING: 0,
-    PLAYING: 3,
-    FINISHED: 7
-  }
-};
-
-exports.default = { Go: Go };
-module.exports = exports["default"];
-
-/***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _go = __webpack_require__(0);
-
-var _go2 = _interopRequireDefault(_go);
-
-var _captureGo = __webpack_require__(4);
-
-var _captureGo2 = _interopRequireDefault(_captureGo);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = { Go: _go2.default, CaptureGo: _captureGo2.default };
-module.exports = exports['default'];
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -309,7 +296,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.currentColor = exports.createBoard = exports.getAdjacentIntersections = exports.getGroup = undefined;
 
-var _constants = __webpack_require__(1);
+var _constants = __webpack_require__(0);
 
 var createBoard = function createBoard(size) {
   var m = [];
@@ -378,6 +365,30 @@ exports.createBoard = createBoard;
 exports.currentColor = currentColor;
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _go = __webpack_require__(1);
+
+var _go2 = _interopRequireDefault(_go);
+
+var _captureGo = __webpack_require__(4);
+
+var _captureGo2 = _interopRequireDefault(_captureGo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { Go: _go2.default, CaptureGo: _captureGo2.default };
+module.exports = exports['default'];
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -388,9 +399,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _go = __webpack_require__(0);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _go = __webpack_require__(1);
 
 var _go2 = _interopRequireDefault(_go);
+
+var _constants = __webpack_require__(0);
+
+var _utils = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -408,6 +427,62 @@ var CaptureGo = function (_Go) {
 
     return _possibleConstructorReturn(this, (CaptureGo.__proto__ || Object.getPrototypeOf(CaptureGo)).apply(this, arguments));
   }
+
+  _createClass(CaptureGo, [{
+    key: 'pass',
+    value: function pass() {
+      return false;
+    }
+  }, {
+    key: 'resign',
+    value: function resign() {
+      return false;
+    }
+  }, {
+    key: 'rules',
+    value: function rules(color, i, j) {
+      if (!_get(CaptureGo.prototype.__proto__ || Object.getPrototypeOf(CaptureGo.prototype), 'rules', this).call(this, color, i, j)) {
+        return false;
+      }
+
+      if (this.moves.length === 0) {
+        return color === _constants.Go.COLOR.BLACK && i === Math.floor(this.info.boardsize / 2) && j === Math.floor(this.info.boardsize / 2);
+      }
+
+      var neighbors = (0, _utils.getAdjacentIntersections)(this.info.boardsize, i, j);
+      for (var index = 0; index < neighbors.length; index += 1) {
+        var neighbor = neighbors[index];
+        var state = this.board[neighbor[0]][neighbor[1]];
+        if (state !== _constants.Go.COLOR.EMPTY) {
+          if (state !== (0, _utils.currentColor)(this.moves)) {
+            return true;
+          }
+
+          if (state === (0, _utils.currentColor)(this.moves)) {
+            var group = (0, _utils.getGroup)(this.board, neighbor[0], neighbor[1]);
+            if (group.liberties === 1) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+  }, {
+    key: 'winner',
+    value: function winner() {
+      var lastMove = this.moves[this.moves.length - 1];
+      if (lastMove && lastMove.type === 'resign') {
+        return 3 ^ (0, _utils.currentColor)(lastMove.color);
+      }
+      if (this.captured[_constants.Go.COLOR.BLACK] >= this.info.goal) {
+        return _constants.Go.COLOR.BLACK;
+      } else if (this.captured[_constants.Go.COLOR.WHITE] >= this.info.goal) {
+        return _constants.Go.COLOR.WHITE;
+      }
+      return false;
+    }
+  }]);
 
   return CaptureGo;
 }(_go2.default);
