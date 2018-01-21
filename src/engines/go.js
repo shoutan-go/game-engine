@@ -144,13 +144,13 @@ Go.prototype.resign = function(color) {
 };
 
 Go.prototype.winner = function() {
-  if (currentColor(this.moves) === GoConstants.COLOR.EMPTY) {
-    return 'estimate';
-  }
   const lastMove = this.moves[this.moves.length - 1];
   if (lastMove && lastMove.type === 'resign') {
     // eslint-disable-next-line no-bitwise
     return 0b11 ^ currentColor(lastMove.color);
+  }
+  if (currentColor(this.moves) === GoConstants.COLOR.EMPTY) {
+    return 'estimate';
   }
   return false;
 };
