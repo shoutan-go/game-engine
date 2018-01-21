@@ -139,7 +139,7 @@ Go.prototype.resign = function (color) {
 Go.prototype.winner = function () {
   var lastMove = this.moves[this.moves.length - 1];
   if (lastMove && lastMove.type === 'resign') {
-    return 3 ^ (0, _utils.currentColor)(lastMove.color);
+    return 3 ^ lastMove.color;
   }
   if ((0, _utils.currentColor)(this.moves) === _constants.Go.COLOR.EMPTY) {
     return 'estimate';

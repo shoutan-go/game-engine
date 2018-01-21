@@ -147,7 +147,7 @@ Go.prototype.winner = function() {
   const lastMove = this.moves[this.moves.length - 1];
   if (lastMove && lastMove.type === 'resign') {
     // eslint-disable-next-line no-bitwise
-    return 0b11 ^ currentColor(lastMove.color);
+    return 0b11 ^ lastMove.color;
   }
   if (currentColor(this.moves) === GoConstants.COLOR.EMPTY) {
     return 'estimate';
