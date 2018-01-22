@@ -42,11 +42,11 @@ const getGroup = function(board, i, j) {
   const visited = {}; // for O(1) lookups
   const visitedList = []; // for returning
   const queue = [[i, j]];
-  let count = 0;
 
+  const liberties = new Set();
   const visiting = n => {
     const state = board[n[0]][n[1]];
-    if (state === Go.COLOR.EMPTY) count += 1;
+    if (state === Go.COLOR.EMPTY) liberties.add(JSON.stringify(n));
     if (state === color) queue.push([n[0], n[1]]);
   };
   while (queue.length > 0) {
@@ -64,7 +64,7 @@ const getGroup = function(board, i, j) {
   }
 
   return {
-    liberties: count,
+    liberties: liberties.size,
     stones: visitedList,
   };
 };

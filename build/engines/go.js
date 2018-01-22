@@ -95,17 +95,17 @@ Go.prototype.play = function (color, i, j) {
   if (this.rules(color, i, j)) {
     this.last_move_hash = this.board.toString();
     this.board[i][j] = (0, _utils.currentColor)(this.moves);
-    var captured = [];
+    var capturedGroup = new Set();
     var neighbors = (0, _utils.getAdjacentIntersections)(this.info.boardsize, i, j);
     var self = this;
     neighbors.forEach(function (n) {
       var state = self.board[n[0]][n[1]];
       if (state !== Go.COLOR.EMPTY && state !== (0, _utils.currentColor)(self.moves)) {
         var group = (0, _utils.getGroup)(self.board, n[0], n[1]);
-        if (group.liberties === 0) captured.push(group);
+        if (group.liberties === 0) capturedGroup.add(group);
       }
     });
-    captured.forEach(function (group) {
+    Array.from(capturedGroup).forEach(function (group) {
       group.stones.forEach(function (stone) {
         self.board[stone[0]][stone[1]] = Go.COLOR.EMPTY;
         self.boardMoves[stone[0]][stone[1]] = Go.COLOR.EMPTY;
@@ -117,10 +117,12 @@ Go.prototype.play = function (color, i, j) {
       position: [i, j]
     });
     this.boardMoves[i][j] = this.moves.length;
-    captured.forEach(function (group) {
+    var captured = 0;
+    Array.from(capturedGroup).forEach(function (group) {
+      captured += group.stones.length;
       _this.captured[color] += group.stones.length;
     });
-    return captured.length;
+    return captured;
   }
   return false;
 };

@@ -45,11 +45,11 @@ var getGroup = function getGroup(board, i, j) {
   var visited = {};
   var visitedList = [];
   var queue = [[i, j]];
-  var count = 0;
 
+  var liberties = new Set();
   var visiting = function visiting(n) {
     var state = board[n[0]][n[1]];
-    if (state === _constants.Go.COLOR.EMPTY) count += 1;
+    if (state === _constants.Go.COLOR.EMPTY) liberties.add(JSON.stringify(n));
     if (state === color) queue.push([n[0], n[1]]);
   };
   while (queue.length > 0) {
@@ -63,7 +63,7 @@ var getGroup = function getGroup(board, i, j) {
   }
 
   return {
-    liberties: count,
+    liberties: liberties.size,
     stones: visitedList
   };
 };
