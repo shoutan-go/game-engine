@@ -128,7 +128,7 @@ Go.prototype.play = function (color, i, j) {
       captured += group.stones.length;
       _this.captured[color] += group.stones.length;
     });
-    return captured.length;
+    return captured;
   }
   return false;
 };
