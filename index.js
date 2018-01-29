@@ -162,6 +162,10 @@ Go.prototype.pass = function (color) {
 };
 
 Go.prototype.rules = function (color, i, j) {
+  if (this.info.result) {
+    return false;
+  }
+
   if ((0, _utils.currentColor)(this.moves) !== color) {
     return false;
   }

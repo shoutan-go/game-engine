@@ -54,6 +54,10 @@ Go.prototype.pass = function(color) {
 };
 
 Go.prototype.rules = function(color, i, j) {
+  // finished?
+  if (this.info.result) {
+    return false;
+  }
   // color
   if (currentColor(this.moves) !== color) {
     return false;
